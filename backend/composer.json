@@ -1,0 +1,17 @@
+{
+    "name": "loja_test_1/backend",
+    "description": "Aplicação de Gestão de Funcionários ()\u001b[desenvolvida com AngularJS e PHP",
+    "type": "project",
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ElderSam",
+            "email": "eldersamuel98@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
