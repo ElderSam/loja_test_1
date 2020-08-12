@@ -1,5 +1,10 @@
 <?php
 
+namespace Classes\Model;
+
+use Exception;
+use \Classes\DB\Sql;
+
 class Employee
 {
 
@@ -67,5 +72,43 @@ class Employee
     }
 
     /* métodos -------------------------------------- */
+
+    /* lista funcionários */
+    public function list($id = false)
+    {
+        $query = "SELECT * FROM funcionarios";
+
+        if($id)
+        {
+            $results = $this->listById($query, $id);
+
+        }else
+        {
+            $results =$this->listAll($query);
+        }
+
+        return json_encode($results);
+    }
+
+    public function listAll($query)
+    {
+        $sql = new Sql();
+
+        return $sql->select($query);
+
+    }
+
+    public function listById($query, $id)
+    {
+        $sql = new Sql();
+
+        $query .= " WHERE id = :id";
+
+        return $sql->select($query, array(
+            ":id"=>$id
+        ));
+    }
+
+
 
 }

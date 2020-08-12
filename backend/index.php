@@ -1,7 +1,10 @@
 <?php
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
+
+use \Classes\Model\Employee;
 
 require __DIR__ . './vendor/autoload.php'; //para reconhecer classes automaticamente
 
@@ -18,8 +21,22 @@ $app->get('/', function () {
 });
 
 /* Listar todos os funcionários */
-$app->get('/employee', function () {
-    Employee::listAll();
+$app->get('/employees', function (Request $request, Response $response) {
+    
+    $employee = new Employee;
+    $response->getBody()->write($employee->list());
+    return $response;
 });
+
+$app->get('/employees/{id}', function (Request $request, Response $response, $args) {
+    
+    //print_r($args); //Exige os argumentos que recebeu por POST ou GET
+
+    $employee = new Employee;
+    $response->getBody()->write($employee->list($args['id']));
+    return $response;
+});
+
+
 
 $app->run();
