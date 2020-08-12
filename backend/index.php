@@ -13,8 +13,13 @@ $app = AppFactory::create(); //cria a aplicação Slim
 });*/
 
 $app->get('/', function () {
-    echo "Hello World!";
+    echo "OK, Server is running!";
     exit;
+});
+
+/* Listar todos os funcionários */
+$app->get('/employee', function () {
+    Employee::listAll();
 });
 
 $app->run();
