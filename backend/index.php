@@ -57,4 +57,12 @@ $app->post('/employees/{id}', function (Request $request, Response $response, $a
     return $response;
 });
 
+/* Excluir funcionário */
+$app->delete('/employees/{id}', function (Request $request, Response $response, $args) {
+
+    $employee = new Employee;
+    $response->getBody()->write($employee->delete($args['id']));
+    return $response;
+});
+
 $app->run();

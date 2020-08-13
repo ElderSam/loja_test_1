@@ -154,4 +154,27 @@ class Employee
         return json_encode($update);
     }
 
+        /* Excluir funcionário */
+        public function delete($id)
+        {
+            $this->setId($id);
+    
+            $sql = new Sql();
+    
+            $delete = $sql->query("CALL sp_funcionarios_delete(:id)", array(
+                ":id"=>$this->getId()
+            ));
+    
+            $test = $this->list($this->getId());
+
+            if(count(json_decode($test)) != 0){ //se o funcionário ainda existir (se retornar um registro)
+                $res = 'Erro ao excluir funcionário!';
+            }else{
+                $res = 'Funcionário excluído com sucesso!';
+            }
+
+            return json_encode($res);
+            
+        }
+
 }
