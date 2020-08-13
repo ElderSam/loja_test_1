@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 12-Ago-2020 às 01:58
+-- Tempo de geração: 13-Ago-2020 às 04:18
 -- Versão do servidor: 10.4.11-MariaDB
 -- versão do PHP: 7.4.5
 
@@ -22,6 +22,25 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `loja_test_1` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `loja_test_1`;
+
+DELIMITER $$
+--
+-- Procedimentos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_funcionarios_save` (IN `pnome` VARCHAR(70), IN `pdtNasc` DATE, IN `pdtAdmissao` DATE, IN `pcargo` INT(11))  BEGIN
+  
+    DECLARE vidFuncionario INT;
+    
+  INSERT INTO funcionarios (nome, dtNasc, dtAdmissao, cargo)
+    VALUES(pnome, pdtNasc, pdtAdmissao, pcargo);
+    
+    SET vidFuncionario = LAST_INSERT_ID();
+    
+    SELECT * FROM funcionarios WHERE id = LAST_INSERT_ID();
+    
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -64,7 +83,12 @@ CREATE TABLE `funcionarios` (
 --
 
 INSERT INTO `funcionarios` (`id`, `nome`, `dtNasc`, `dtAdmissao`, `cargo`, `dtCadastro`) VALUES
-(1, 'João Cléber', '1987-08-03', '2015-03-21', 1, '2020-08-11 20:53:58');
+(1, 'João Cléber', '1987-08-03', '2015-03-21', 1, '2020-08-11 20:53:58'),
+(4, 'Pedro Gonçalves', '1997-04-27', '2017-02-11', 2, '2020-08-11 22:39:09'),
+(7, 'Elder', '1998-02-18', '0000-00-00', 1, '2020-08-12 23:09:58'),
+(8, 'Juan Carlo', '1976-11-23', '2017-03-20', 2, '2020-08-12 23:12:32'),
+(9, 'teste', '2000-03-20', '2015-12-04', 3, '2020-08-12 23:13:34'),
+(10, 'Fernando De La Viera', '1996-05-22', '2020-07-21', 1, '2020-08-12 23:15:11');
 
 --
 -- Índices para tabelas despejadas
@@ -81,7 +105,7 @@ ALTER TABLE `cargos`
 --
 ALTER TABLE `funcionarios`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `fk_funcionario_cargo` (`cargo`);
+  ADD KEY `fk_funcionario_cargo` (`cargo`) USING BTREE;
 
 --
 -- AUTO_INCREMENT de tabelas despejadas
@@ -97,7 +121,7 @@ ALTER TABLE `cargos`
 -- AUTO_INCREMENT de tabela `funcionarios`
 --
 ALTER TABLE `funcionarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restrições para despejos de tabelas

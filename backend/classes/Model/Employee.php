@@ -71,9 +71,17 @@ class Employee
         $this->cargo = $cargo;
     }
 
+    public function setAll($data) //recebe um array coloca o valor de todos os atributos
+    {
+        $this->setNome($data['nome']);
+        $this->setDtNasc($data['dtNasc']);
+        $this->setDtAdmissao($data['dtAdmissao']);
+        $this->setCargo($data['cargo']);
+    }
+
     /* métodos -------------------------------------- */
 
-    /* lista funcionários */
+    /* lista funcionários ----------------------*/
     public function list($id = false)
     {
         $query = "SELECT * FROM funcionarios";
@@ -89,7 +97,7 @@ class Employee
 
         return json_encode($results);
     }
-
+    /* lista todos os funcionários ----------------------*/
     public function listAll($query)
     {
         $sql = new Sql();
@@ -98,6 +106,7 @@ class Employee
 
     }
 
+    /* lista um funcionário por id ----------------------*/
     public function listById($query, $id)
     {
         $sql = new Sql();
@@ -109,6 +118,21 @@ class Employee
         ));
     }
 
+    /* cadastra/insere um novo funcionário ----------------------*/
+    public function create($data)
+    {
+        $sql = new Sql();
 
+        $this->setAll($data);
+
+        $new = $sql->select("CALL sp_funcionarios_save(:nome, :dtNasc, :dtAdmissao, :cargo)", array(
+            ":nome"=>$this->getNome(),
+            ":dtNasc"=>$this->getDtNasc(),
+            ":dtAdmissao"=>$this->getDtAdmissao(),
+            ":cargo"=>$this->getCargo(),
+        ));
+
+        return json_encode($new);
+    }
 
 }

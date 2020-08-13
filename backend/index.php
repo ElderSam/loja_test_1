@@ -37,6 +37,11 @@ $app->get('/employees/{id}', function (Request $request, Response $response, $ar
     return $response;
 });
 
+$app->post('/employees', function (Request $request, Response $response) {
 
+    $employee = new Employee;
+    $response->getBody()->write($employee->create($_POST));
+    return $response;
+});
 
 $app->run();
