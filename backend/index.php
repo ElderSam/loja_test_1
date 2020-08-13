@@ -28,6 +28,7 @@ $app->get('/employees', function (Request $request, Response $response) {
     return $response;
 });
 
+/* Listar um funcionário por id */
 $app->get('/employees/{id}', function (Request $request, Response $response, $args) {
     
     //print_r($args); //Exige os argumentos que recebeu por POST ou GET
@@ -37,10 +38,22 @@ $app->get('/employees/{id}', function (Request $request, Response $response, $ar
     return $response;
 });
 
+/* Cadastrar/inserir novo funcionário */
 $app->post('/employees', function (Request $request, Response $response) {
 
     $employee = new Employee;
     $response->getBody()->write($employee->create($_POST));
+    return $response;
+});
+
+/* Atualizar funcioário */
+$app->post('/employees/{id}', function (Request $request, Response $response, $args) {
+      
+    //POST or PUT
+    $allPostPutVars = $request->getParsedBody();
+
+    $employee = new Employee;
+    $response->getBody()->write($employee->update($args['id'], $allPostPutVars));
     return $response;
 });
 

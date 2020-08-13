@@ -48,7 +48,7 @@ class Employee
     /* setters -------------------------------------- */
     public function setId($id)
     {
-        $this->$id = $id;
+        $this->id = $id;
     }
 
     public function setNome($nome)
@@ -133,6 +133,25 @@ class Employee
         ));
 
         return json_encode($new);
+    }
+
+    /* Atualizar funcionário */
+    public function update($id, $data)
+    {
+        $this->setId($id);
+        $this->setAll($data);
+
+        $sql = new Sql();
+
+        $update = $sql->select("CALL sp_funcionarios_update(:id, :nome, :dtNasc, :dtAdmissao, :cargo)", array(
+            ":id"=>$this->getId(),
+            ":nome"=>$this->getNome(),
+            ":dtNasc"=>$this->getDtNasc(),
+            ":dtAdmissao"=>$this->getDtAdmissao(),
+            ":cargo"=>$this->getCargo(),
+        ));
+
+        return json_encode($update);
     }
 
 }
